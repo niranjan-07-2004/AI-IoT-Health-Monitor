@@ -1,0 +1,4 @@
+firebase_key.json
+health_data.csv
+__pycache__/
+*.pyc

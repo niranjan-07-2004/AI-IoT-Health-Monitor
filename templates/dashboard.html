@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Health Monitor</title>
+    <style>
+        body { font-family: Arial; background:#111; color:white; text-align:center; }
+        table { margin:auto; border-collapse:collapse; width:80%; }
+        th, td { border:1px solid #555; padding:10px; }
+        th { background:#333; }
+        .danger { color:red; }
+        .normal { color:lightgreen; }
+    </style>
+</head>
+<body>
+    <h1>AI IoT Health Monitoring Dashboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Heart Rate</th>
+                <th>Temperature</th>
+                <th>Movement</th>
+                <th>AI Risk</th>
+            </tr>
+        </thead>
+        <tbody id="data"></tbody>
+    </table>
+
+<script>
+setInterval(() => {
+    fetch("/all")
+    .then(res => res.json())
+    .then(data => {
+        let rows="";
+        data.slice(-10).reverse().forEach(d => {
+            let risk = d.risk == 0 ? "NORMAL" : "DANGER";
+            let cls = d.risk == 0 ? "normal" : "danger";
+            rows += `<tr>
+                <td>${d.heart_rate}</td>
+                <td>${d.temperature}</td>
+                <td>${d.movement}</td>
+                <td class="${cls}">${risk}</td>
+            </tr>`;
+        });
+        document.getElementById("data").innerHTML = rows;
+    });
+},2000);
+</script>
+
+</body>
+</html>
